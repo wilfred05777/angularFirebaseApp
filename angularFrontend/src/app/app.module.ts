@@ -5,24 +5,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../app/material.module';
-import { AuthComponent } from './components/auth/auth.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { SingupComponent } from './components/auth/singup/singup.component';
 import { NewTrainingComponent } from './training/new-training/new-training.component';
 import { CurrentTrainingComponent } from './training/current-training/current-training.component';
 import { PastTrainingComponent } from './training/past-training/past-training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { TrainingComponent } from './training/training/training.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
     LoginComponent,
-    SingupComponent,
     NewTrainingComponent,
     CurrentTrainingComponent,
     PastTrainingComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    SignupComponent,
+    TrainingComponent
   ],
   imports: [
     MaterialModule,

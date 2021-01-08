@@ -12,6 +12,7 @@ import { PastTrainingComponent } from './training/past-training/past-training.co
 import { WelcomeComponent } from './welcome/welcome.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { TrainingComponent } from './training/training/training.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TrainingComponent } from './training/training/training.component';
     TrainingComponent
   ],
   imports: [
+    FlexLayoutModule,
     MaterialModule,
     BrowserModule,
     AppRoutingModule,

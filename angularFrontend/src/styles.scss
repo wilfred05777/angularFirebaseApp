@@ -37,3 +37,32 @@ $angularFrontend-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: "Roboto", "Helvetica Neue", sans-serif; }
+
+
+// Custom Header Styling
+mat-sidenav-container, mat-sidenav-content {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+a {
+  text-decoration: none;
+  color:white;
+}
+a:hover, a:active{
+  color: lightgray;
+}
+
+.navigation-items{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-caption{
+  display: inline-block;
+  padding-left: 6px;
+}

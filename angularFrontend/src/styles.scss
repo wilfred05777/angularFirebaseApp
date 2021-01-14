@@ -40,6 +40,8 @@ body { margin: 0; font-family: "Roboto", "Helvetica Neue", sans-serif; }
 
 
 // Custom Header Styling
+
+// header start
 mat-sidenav-container, mat-sidenav-content {
   height: 100%;
 }
@@ -66,3 +68,9 @@ a:hover, a:active{
   display: inline-block;
   padding-left: 6px;
 }
+
+.welcome {
+  text-align: center;
+}
+
+// header-end

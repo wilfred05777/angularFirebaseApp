@@ -1,1 +1,19 @@
-<p>login works!</p>
+<section>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <input 
+                matInput 
+                type="email" 
+                #formControlName="email"
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <input 
+                matInput 
+                type="password"
+                #formControlName="password"
+            >
+        </mat-form-field>
+        <button type="submit" disabled="!form.valid">Submit</button>
+    </form>
+</section>

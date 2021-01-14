@@ -13,7 +13,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { TrainingComponent } from './training/training/training.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     TrainingComponent
   ],
   imports: [
+    ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
     MaterialModule,

@@ -13,7 +13,7 @@
                 #emailInput="ngModel"
                 >
                 <mat-error *ngIf="emailInput.hasError('required')">Field must not be empty</mat-error>
-                <mat-error *ngIf="!emailInput.hasError('requred')">Email is invalid</mat-error>
+                <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid</mat-error>
         </mat-form-field>
         <mat-form-field hintLabel="Should be at least 6 Characters Long">
             <input 

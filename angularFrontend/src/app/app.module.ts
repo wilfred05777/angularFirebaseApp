@@ -14,6 +14,8 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { TrainingComponent } from './training/training/training.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/navigation/header/header.component';
+import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PastTrainingComponent,
     WelcomeComponent,
     SignupComponent,
-    TrainingComponent
+    TrainingComponent,
+    HeaderComponent,
+    SidenavListComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -21,12 +21,18 @@
              Training
         </span>
     </a>
-    <a *ngIf="isAuth" mat-list-item routerLink="/logout" (click)="onClose()">
+    <a *ngIf="isAuth" mat-list-item (click)="onLogout()">
         <mat-icon>undo</mat-icon>
         <span class="nav-caption">
         Logout
         </span>  
     </a>
+    <!-- <a *ngIf="isAuth" mat-list-item routerLink="/logout" (click)="onClose()">
+        <mat-icon>undo</mat-icon>
+        <span class="nav-caption">
+        Logout
+        </span>  
+    </a> -->
 </mat-nav-list>
 
 

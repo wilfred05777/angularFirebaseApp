@@ -20,6 +20,11 @@ import { StopTrainingComponent } from './training/current-training/stop-training
 import { AuthService } from './components/auth/auth.services';
 import { TrainingService } from './training/training/training.service';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +46,10 @@ import { TrainingService } from './training/training/training.service';
     MaterialModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAnalyticsModule,
+    AngularFirestoreModule
   ],
   providers: [
     TrainingService,

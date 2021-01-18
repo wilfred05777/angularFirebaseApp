@@ -13,6 +13,7 @@ export class TrainingService {
     ];
 
     private runningExcercise: Excercise;
+    private excercises: Excercise[] = [];
 
     // reference type problematic object this one .slice() fixes  the issue
     getAvailableExcercises(){
@@ -26,6 +27,28 @@ export class TrainingService {
         this.excerciseChanged.next({ ...this.runningExcercise });
         // const selectedExcercise = this.availableExercise.find(ex=> ex.id === selectedId)
         // this.runningExcercise = selectedExcercise;
+    }
+
+    completeExercise(){
+        this.excercises.push({
+            ...this.runningExcercise, 
+            date: new Date(),
+            state: 'completed'
+        });
+        this.runningExcercise = null;
+        this.excerciseChanged.next(null);
+    }
+
+    cancelExcercise(progress: number){
+        this.excercises.push({
+            ...this.runningExcercise,
+            duration: this.runningExcercise.duration * (progress/100),
+            calories: this.runningExcercise.duration * (progress/100) , 
+            date: new Date(),
+            state: 'cancelled'
+        });
+        this.runningExcercise = null;
+        this.excerciseChanged.next(null);
     }
 
     getRunningExercise(){

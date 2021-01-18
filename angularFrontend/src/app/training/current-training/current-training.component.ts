@@ -10,7 +10,7 @@ import { StopTrainingComponent } from './stop-training.component';
 })
 export class CurrentTrainingComponent implements OnInit {
   //exit
-  @Output() trainingExit = new EventEmitter();
+  // @Output() trainingExit = new EventEmitter();
 
   progress = 0;
   timer: number;
@@ -35,6 +35,7 @@ export class CurrentTrainingComponent implements OnInit {
     this.timer = setInterval(()=>{
       this.progress = this.progress + 1;
       if(this.progress >= 100) {
+        this.trainingService.completeExercise();
         clearInterval(this.timer);
       }
     }, 
@@ -54,7 +55,8 @@ export class CurrentTrainingComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result =>{
         // Are you sure to quit: if selected is "yes" it will stop/terminated and go back to traning selectio
         if(result){
-          this.trainingExit.emit();
+          // this.trainingExit.emit();
+          this.trainingService.cancelExcercise(this.progress);
         } 
         // Are you sure to quit: if selected is "No" it will resume and continue progress bar
         else{

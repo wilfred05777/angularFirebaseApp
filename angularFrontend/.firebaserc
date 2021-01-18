@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angularfirebaseapp-a66fe": {
+      "hosting": {
+        "angularFrontend": [
+          "angularfirebaseapp-a66fe"
+        ]
+      }
+    }
+  }
+}

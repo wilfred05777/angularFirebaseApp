@@ -1,8 +1,12 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 
 import { Excercise } from './excercise.model';
 
 export class TrainingService {
+    private runningExcercise: Excercise;
+    private excercises: Excercise[] = [];
+
     excerciseChanged = new Subject<Excercise>();
 
     private availableExercise: Excercise[] = [
@@ -12,9 +16,9 @@ export class TrainingService {
         { id: 'burpess', name: 'Burpees', duration: 60, calories: 238}
     ];
 
-    private runningExcercise: Excercise;
-    private excercises: Excercise[] = [];
+    // constructor(private afs: AngularFirestore){}
 
+    
     // reference type problematic object this one .slice() fixes  the issue
     getAvailableExcercises(){
         return this.availableExercise.slice();

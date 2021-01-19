@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Excercise } from '../training/excercise.model';
 import { TrainingService } from '../training/training.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-training',
@@ -9,14 +12,73 @@ import { TrainingService } from '../training/training.service';
   styleUrls: ['./new-training.component.scss']
 })
 export class NewTrainingComponent implements OnInit {
-  
-  @Output() trainingStart = new EventEmitter<void>();
-  excercises: Excercise[] = [];
+  // availableExcercisesInFS: Observable<any[]>;
+  availableExcercisesInFS: Observable<Excercise[]>;
 
-  constructor(private trainingService: TrainingService) { }
+  @Output() trainingStart = new EventEmitter<void>();
+  // excercises: Excercise[] = [];
+  // excercises: Observable<any[]>;
+  // excercises: Excercise[];
+
+  
+
+  constructor(
+    private trainingService: TrainingService,
+    private fs: AngularFirestore
+    ) {
+      // this.availableExcercisesInFS = fs.collection('availableExcercises').valueChanges();
+
+     }
 
   ngOnInit(): void {
-    this.excercises = this.trainingService.getAvailableExcercises();
+   this.availableExcercisesInFS = this.fs
+        .collection('availableExcercises')
+        .snapshotChanges()
+        .pipe(map(docArray =>{
+          return docArray.map(doc =>{
+            return {
+              id: doc.payload.doc.id,
+              name: doc.payload.doc.data()['name'],
+              duration: doc.payload.doc.data()['duration'],
+              calories: doc.payload.doc.data()['calories']
+            }
+          })
+          
+        }))
+        // .subscribe(result =>{
+        //   console.log(result)
+        // })
+
+    //  this.fs
+    //   .collection('availableExcercises')
+    //   .snapshotChanges()
+    //   // .pipe(map(docArray =>{
+    //   //   docArray.map(doc=>{
+    //   //     return {
+    //   //       id: doc.payload.doc.id,
+    //   //       ...doc.payload.doc.data()
+    //   //     }
+    //   //   })
+    //   // })
+    //   // )
+    //   .subscribe(result => {
+    //     // for(const res of result){
+    //     //   console.log(res.payload.doc.data())
+    //     // }
+    //     console.log(result);
+    //   })
+
+      // this.availableExcercisesInFS = this.fs
+      // .collection('availableExcercises')
+      // .valueChanges()
+
+      // this.availableExcercisesInFS = this.fs
+      // .collection('availableExcercises')
+      // .valueChanges()
+      //   .subscribe(result =>{
+      //   console.log(result)
+      // });
+    // this.excercises = this.trainingService.getAvailableExcercises();
     // this.excercises = this.trainingService.availableExercise;
   }
 

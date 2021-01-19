@@ -9,7 +9,8 @@
                     name="excercise"
                     required    
                     placeholder="Choose Excercise"> 
-                <mat-option *ngFor="let excercise of excercises" [value]="excercise.id">{{excercise.name}}</mat-option>
+                <mat-option *ngFor="let excercise of availableExcercisesInFS | async" [value]="excercise.id">{{excercise.name}}</mat-option>
+                <!-- <mat-option *ngFor="let excercise of excercises | async" [value]="excercise.id">{{excercise.name}}</mat-option> -->
                 </mat-select>
             
                 <!-- <mat-label>Select type of training</mat-label> -->
@@ -44,3 +45,7 @@
         </mat-card>
     </form>
 </section>
+
+<!-- <li class="text" *ngFor="let excercises of availableExcerciseInFs | async">
+    {{items.name}}
+  </li> -->

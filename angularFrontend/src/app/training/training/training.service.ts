@@ -61,23 +61,35 @@ export class TrainingService {
     }
 
     completeExercise(){
-        this.excercises.push({
+        this.addDataToDatabase({
             ...this.runningExcercise, 
             date: new Date(),
             state: 'completed'
         });
+        // this.excercises.push({
+        //     ...this.runningExcercise, 
+        //     date: new Date(),
+        //     state: 'completed'
+        // });
         this.runningExcercise = null;
         this.excerciseChanged.next(null);
     }
 
     cancelExcercise(progress: number){
-        this.excercises.push({
+        this.addDataToDatabase({
             ...this.runningExcercise,
             duration: this.runningExcercise.duration * (progress/100),
             calories: this.runningExcercise.calories * (progress/100) , 
             date: new Date(),
             state: 'cancelled'
         });
+        // this.excercises.push({
+        //     ...this.runningExcercise,
+        //     duration: this.runningExcercise.duration * (progress/100),
+        //     calories: this.runningExcercise.calories * (progress/100) , 
+        //     date: new Date(),
+        //     state: 'cancelled'
+        // });
         this.runningExcercise = null;
         this.excerciseChanged.next(null);
     }
@@ -88,6 +100,10 @@ export class TrainingService {
 
     getCompletedOrCancelledExcercise(){
         return this.excercises.slice()
+    }
+
+    private addDataToDatabase(excercise: Excercise){
+        this.fs.collection('finishedExercises').add(excercise);
     }
 }
 

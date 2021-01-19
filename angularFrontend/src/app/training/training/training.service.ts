@@ -9,6 +9,7 @@ import { Excercise } from './excercise.model';
 export class TrainingService {
     excerciseChanged = new Subject<Excercise>();
     excercisesChanged = new Subject<Excercise[]>();
+    finishedExercisesChanged = new Subject<Excercise[]>();
     private availableExcercises: Excercise[] = [];
     private runningExcercise: Excercise;
     private excercises: Excercise[] = [];
@@ -98,9 +99,17 @@ export class TrainingService {
         return {...this.runningExcercise};    
     }
 
-    getCompletedOrCancelledExcercise(){
-        return this.excercises.slice()
+    fetchCompletedOrCancelledExcercise(){
+        this.fs.collection('finishedExercises')
+        .valueChanges()
+        .subscribe((excercises: Excercise[]) => {
+            // this.excercises = excercises;
+            this.finishedExercisesChanged.next(excercises)
+        });
     }
+    // getCompletedOrCancelledExcercise(){
+    //     return this.excercises.slice()
+    // }
 
     private addDataToDatabase(excercise: Excercise){
         this.fs.collection('finishedExercises').add(excercise);

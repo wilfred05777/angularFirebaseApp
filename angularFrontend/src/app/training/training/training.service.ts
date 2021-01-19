@@ -1,32 +1,58 @@
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Excercise } from './excercise.model';
 
+@Injectable()
 export class TrainingService {
+    excerciseChanged = new Subject<Excercise>();
+    excercisesChanged = new Subject<Excercise[]>();
+    private availableExcercises: Excercise[] = [];
     private runningExcercise: Excercise;
     private excercises: Excercise[] = [];
 
-    excerciseChanged = new Subject<Excercise>();
+   constructor(private fs:AngularFirestore){   }
 
-    private availableExercise: Excercise[] = [
-        { id: 'crunches', name: 'Crunches', duration: 30, calories: 8},
-        { id: 'touch-toes', name: 'Touch Toes', duration: 130, calories: 28},
-        { id: 'side-lunges', name: 'Side Lunges', duration: 30, calories: 38},
-        { id: 'burpess', name: 'Burpees', duration: 60, calories: 238}
-    ];
+    // private availableExercise: Excercise[] = [
+    //     { id: 'crunches', name: 'Crunches', duration: 30, calories: 8},
+    //     { id: 'touch-toes', name: 'Touch Toes', duration: 130, calories: 28},
+    //     { id: 'side-lunges', name: 'Side Lunges', duration: 30, calories: 38},
+    //     { id: 'burpess', name: 'Burpees', duration: 60, calories: 238}
+    // ];
 
     // constructor(private afs: AngularFirestore){}
 
     
     // reference type problematic object this one .slice() fixes  the issue
-    getAvailableExcercises(){
-        return this.availableExercise.slice();
+   
+    // getAvailableExcercises(){
+    //     return this.availableExercise.slice();
+    // }
+    fetchAvailableExcercises(){
+        this.fs
+        .collection('availableExcercises')
+        .snapshotChanges()
+        .pipe(map(docArray =>{
+          return docArray.map(doc =>{
+            return {
+              id: doc.payload.doc.id,
+              name: doc.payload.doc.data()['name'],
+              duration: doc.payload.doc.data()['duration'],
+              calories: doc.payload.doc.data()['calories']
+            };
+          });
+        }))
+        .subscribe((exercises: Excercise[])=>{
+            this.availableExcercises = exercises;
+            this.excercisesChanged.next([...this.availableExcercises]);
+        });
     }
 
     startExcercise(selectedId: string){
 
-        this.runningExcercise = this.availableExercise.find(
+        this.runningExcercise = this.availableExcercises.find(
             ex=> ex.id === selectedId)
         this.excerciseChanged.next({ ...this.runningExcercise });
         // const selectedExcercise = this.availableExercise.find(ex=> ex.id === selectedId)

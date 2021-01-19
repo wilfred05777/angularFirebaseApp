@@ -9,7 +9,7 @@
                     name="excercise"
                     required    
                     placeholder="Choose Excercise"> 
-                <mat-option *ngFor="let excercise of availableExcercisesInFS | async" [value]="excercise.id">{{excercise.name}}</mat-option>
+                <mat-option *ngFor="let excercise of availableExcercisesInFS" [value]="excercise.id">{{excercise.name}}</mat-option>
                 <!-- <mat-option *ngFor="let excercise of excercises | async" [value]="excercise.id">{{excercise.name}}</mat-option> -->
                 </mat-select>
             

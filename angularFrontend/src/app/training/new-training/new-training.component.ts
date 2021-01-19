@@ -1,19 +1,24 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Excercise } from '../training/excercise.model';
 import { TrainingService } from '../training/training.service';
 import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-new-training',
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.scss']
 })
-export class NewTrainingComponent implements OnInit {
+
+
+export class NewTrainingComponent implements OnInit, OnDestroy {
   // availableExcercisesInFS: Observable<any[]>;
-  availableExcercisesInFS: Observable<Excercise[]>;
+  // availableExcercisesInFS: Observable<Excercise[]>;
+  availableExcercisesInFS: Excercise[];
+  excerciseSubscription: Subscription;
 
   @Output() trainingStart = new EventEmitter<void>();
   // excercises: Excercise[] = [];
@@ -31,20 +36,25 @@ export class NewTrainingComponent implements OnInit {
      }
 
   ngOnInit(): void {
-   this.availableExcercisesInFS = this.fs
-        .collection('availableExcercises')
-        .snapshotChanges()
-        .pipe(map(docArray =>{
-          return docArray.map(doc =>{
-            return {
-              id: doc.payload.doc.id,
-              name: doc.payload.doc.data()['name'],
-              duration: doc.payload.doc.data()['duration'],
-              calories: doc.payload.doc.data()['calories']
-            }
-          })
+    this.trainingService.fetchAvailableExcercises();
+    this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(exercises => this.availableExcercisesInFS = exercises);
+
+    // this.fs is restructure and put to training services
+
+  //  this.availableExcercisesInFS = this.fs
+  //       .collection('availableExcercises')
+  //       .snapshotChanges()
+  //       .pipe(map(docArray =>{
+  //         return docArray.map(doc =>{
+  //           return {
+  //             id: doc.payload.doc.id,
+  //             name: doc.payload.doc.data()['name'],
+  //             duration: doc.payload.doc.data()['duration'],
+  //             calories: doc.payload.doc.data()['calories']
+  //           }
+  //         })
           
-        }))
+  //       }))
         // .subscribe(result =>{
         //   console.log(result)
         // })
@@ -90,4 +100,8 @@ export class NewTrainingComponent implements OnInit {
   //   // this.trainingStart.emit();
   //   this.trainingService.startExcercise();
   // }
+
+  ngOnDestroy(){
+    this.excerciseSubscription.unsubscribe();
+  }
 }

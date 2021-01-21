@@ -53,7 +53,7 @@ export class TrainingService {
     }
 
     startExcercise(selectedId: string){
-
+        // this.fs.doc('availableExcercises/' + selectedId ).update({lastSelected: new Date()})
         this.runningExcercise = this.availableExcercises.find(
             ex=> ex.id === selectedId)
         this.excerciseChanged.next({ ...this.runningExcercise });

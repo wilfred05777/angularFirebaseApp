@@ -27,7 +27,6 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,11 +55,8 @@ import { environment } from 'src/environments/environment';
     AngularFireAuthModule,
     // firebase
   ],
-  providers: [
-    TrainingService,
-    AuthService
-  ],
+  providers: [TrainingService, AuthService],
   bootstrap: [AppComponent],
-  entryComponents: [StopTrainingComponent]
+  entryComponents: [StopTrainingComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../auth.services';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   // loginForm = new FormGroup({
@@ -14,14 +19,11 @@ export class LoginComponent implements OnInit {
   // });
 
   loginForm = this.fb.group({
-    "email": ['', Validators.required],
-    "password":['', Validators.required],
+    email: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-    ) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     // this.loginForm = new FormGroup({
@@ -32,15 +34,12 @@ export class LoginComponent implements OnInit {
     // })
   }
 
-  
-
-  onSubmit(){
+  onSubmit() {
     //
-    // console.log(this.loginForm); 
+    // console.log(this.loginForm);
     this.authService.login({
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    })
+      password: this.loginForm.value.password,
+    });
   }
-
 }

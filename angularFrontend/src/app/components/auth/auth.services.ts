@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { AuthData } from './auth-data.model';
 import { User } from './user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { TrainingService } from 'src/app/training/training/training.service';
 // import { firebase } from 'firebase/auth';
 
 @Injectable()
@@ -12,7 +13,11 @@ export class AuthService {
   private user: User;
   private isAuthenticated = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth) {}
+  constructor(
+    private router: Router,
+    private afAuth: AngularFireAuth,
+    private trainingService: TrainingService
+  ) {}
 
   registerUser(authData: AuthData) {
     this.afAuth
@@ -53,6 +58,7 @@ export class AuthService {
   }
 
   logout() {
+    this.trainingService.cancelSubscriptions();
     // this.user = null;
     this.afAuth.signOut();
     this.authChange.next(false);

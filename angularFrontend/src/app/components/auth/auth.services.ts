@@ -7,7 +7,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { TrainingService } from 'src/app/training/training/training.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UIService } from 'src/app/shared/ui.service';
-// import { firebase } from 'firebase/auth';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +36,7 @@ export class AuthService {
       }
     });
   }
+
   registerUser(authData: AuthData) {
     this.uiservice.loadingStateChanged.next(true);
     this.afAuth
@@ -72,6 +72,7 @@ export class AuthService {
         // console.log(result)
       })
       .catch((error) => {
+        this.uiservice.loadingStateChanged.next(false);
         this.snackbar.open(error.message, null, {
           duration: 3000,
         });

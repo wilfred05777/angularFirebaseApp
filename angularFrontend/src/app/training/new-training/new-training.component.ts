@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Excercise } from '../training/excercise.model';
 import { TrainingService } from '../training/training.service';
 import { map } from 'rxjs/operators';
+import { UIService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'app-new-training',
@@ -22,6 +23,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   // availableExcercisesInFS: Observable<Excercise[]>;
   availableExcercisesInFS: Excercise[];
   excerciseSubscription: Subscription;
+  private loadingSubs: Subscription;
+  isLoading = true;
 
   @Output() trainingStart = new EventEmitter<void>();
   // excercises: Excercise[] = [];
@@ -30,16 +33,27 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   constructor(
     private trainingService: TrainingService,
-    private fs: AngularFirestore
+    private fs: AngularFirestore,
+    private uiService: UIService
   ) {
     // this.availableExcercisesInFS = fs.collection('availableExcercises').valueChanges();
   }
 
   ngOnInit(): void {
-    this.trainingService.fetchAvailableExcercises();
-    this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(
-      (exercises) => (this.availableExcercisesInFS = exercises)
+    this.loadingSubs = this.uiService.loadingStateChanged.subscribe(
+      (isLoading) => {
+        this.isLoading = isLoading;
+      }
     );
+    //
+
+    this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(
+      (exercises) => {
+        this.isLoading = false;
+        this.availableExcercisesInFS = exercises;
+      }
+    );
+    this.trainingService.fetchAvailableExcercises();
 
     // this.fs is restructure and put to training services
 
@@ -105,5 +119,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.excerciseSubscription.unsubscribe();
+    this.loadingSubs.unsubscribe();
   }
 }

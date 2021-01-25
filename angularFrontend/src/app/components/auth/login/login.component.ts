@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs';
 import { UIService } from 'src/app/shared/ui.service';
 import { AuthService } from '../auth.services';
 
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../../app.reducer';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,10 +35,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private uiservice: UIService
+    private uiservice: UIService,
+    private store: Store<{ ui: fromApp.State }>
   ) {}
 
   ngOnInit(): void {
+    this.store.subscribe((data) => console.log(data));
     this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
       (isLoading) => {
         this.isLoading = isLoading;

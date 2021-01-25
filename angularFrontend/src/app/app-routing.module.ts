@@ -17,6 +17,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./../app/training/training.module').then((m) => m.TrainingModule),
   },
+  // no longer works it has deferent syntax in official docs https://angular.io/guide/lazy-loading-ngmodules
+  // {
+  //   path: 'trainingModule',
+  //   loadChildren: './training/training.module#TrainingModule',
+  // },
+
   // { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
   // { path: '', redirectTo: '/login', pathMatch: 'full' },
   // { path: 'signup', component: SignupComponent },

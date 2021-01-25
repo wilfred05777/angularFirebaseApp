@@ -5,12 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../app/material.module';
-import { LoginComponent } from './components/auth/login/login.component';
 import { NewTrainingComponent } from './training/new-training/new-training.component';
 import { CurrentTrainingComponent } from './training/current-training/current-training.component';
 import { PastTrainingComponent } from './training/past-training/past-training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { SignupComponent } from './components/auth/signup/signup.component';
+// import { LoginComponent } from './components/auth/login/login.component';
+// import { SignupComponent } from './components/auth/signup/signup.component';
 import { TrainingComponent } from './training/training/training.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,16 +27,17 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { UIService } from './shared/ui.service';
+import { AuthModule } from './components/auth/auth.modules';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    // LoginComponent,
+    // SignupComponent,
     NewTrainingComponent,
     CurrentTrainingComponent,
     PastTrainingComponent,
     WelcomeComponent,
-    SignupComponent,
     TrainingComponent,
     HeaderComponent,
     SidenavListComponent,
@@ -54,6 +55,7 @@ import { UIService } from './shared/ui.service';
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AuthModule,
     // firebase
   ],
   providers: [TrainingService, AuthService, UIService],

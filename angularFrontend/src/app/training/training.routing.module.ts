@@ -4,7 +4,7 @@ import { AuthGuard } from '../components/auth/auth.guard';
 import { TrainingComponent } from './training/training.component';
 
 const routes: Routes = [
-  { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
+  { path: '', component: TrainingComponent, canActivate: [AuthGuard] },
   //   { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
 ];
 

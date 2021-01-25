@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './components/auth/auth.guard';
 import { AuthService } from './components/auth/auth.services';
+// import { TrainingModule } from './training/training.module';
 // import { LoginComponent } from './components/auth/login/login.component';
 // import { SignupComponent } from './components/auth/signup/signup.component';
 // import { TrainingComponent } from './training/training.component';
@@ -9,11 +10,17 @@ import { TrainingComponent } from './training/training/training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '', component: WelcomeComponent },
+  {
+    // https://angular.io/guide/lazy-loading-ngmodules
+    path: 'training',
+    loadChildren: () =>
+      import('./../app/training/training.module').then((m) => m.TrainingModule),
+  },
+  // { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
   // { path: 'signup', component: SignupComponent },
   // { path: 'login', component: LoginComponent },
-  { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

@@ -60,7 +60,7 @@ import { TrainingModule } from './training/training.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AuthModule,
-    TrainingModule,
+    // TrainingModule,
   ],
   providers: [TrainingService, AuthService, UIService],
   bootstrap: [AppComponent],

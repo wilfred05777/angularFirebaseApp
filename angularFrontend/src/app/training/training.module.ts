@@ -4,6 +4,7 @@ import { CurrentTrainingComponent } from './current-training/current-training.co
 import { StopTrainingComponent } from './current-training/stop-training.component';
 import { NewTrainingComponent } from './new-training/new-training.component';
 import { PastTrainingComponent } from './past-training/past-training.component';
+import { TrainingRoutingModule } from './training.routing.module';
 import { TrainingComponent } from './training/training.component';
 // import { CommonModule } from '@angular/common';
 // import { FlexLayoutModule } from '@angular/flex-layout';
@@ -20,6 +21,7 @@ import { TrainingComponent } from './training/training.component';
   ],
   imports: [
     SharedModule,
+    TrainingRoutingModule,
     // CommonModule,
     // MaterialModule,
     // ReactiveFormsModule,

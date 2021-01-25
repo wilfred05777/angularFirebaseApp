@@ -10,12 +10,13 @@ import { TrainingComponent } from './training/training/training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
+  { path: 'welcome', component: WelcomeComponent },
   {
     // https://angular.io/guide/lazy-loading-ngmodules
     path: 'training',
     loadChildren: () =>
       import('./../app/training/training.module').then((m) => m.TrainingModule),
+    canLoad: [AuthGuard],
   },
   // no longer works it has deferent syntax in official docs https://angular.io/guide/lazy-loading-ngmodules
   // {

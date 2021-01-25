@@ -51,7 +51,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.availableExcercisesInFS = exercises;
       }
     );
-    this.trainingService.fetchAvailableExcercises();
+    this.fetchExercises();
+    // this.trainingService.fetchAvailableExcercises();
 
     // this.fs is restructure and put to training services
 
@@ -104,6 +105,10 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     // });
     // this.excercises = this.trainingService.getAvailableExcercises();
     // this.excercises = this.trainingService.availableExercise;
+  }
+
+  fetchExercises() {
+    this.trainingService.fetchAvailableExcercises();
   }
 
   onStartTraining(form: NgForm) {

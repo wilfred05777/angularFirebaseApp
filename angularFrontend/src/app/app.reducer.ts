@@ -1,4 +1,4 @@
-interface State {
+export interface State {
   // type definition
   isLoading: boolean;
 }

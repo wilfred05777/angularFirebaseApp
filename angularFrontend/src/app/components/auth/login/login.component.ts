@@ -5,22 +5,24 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UIService } from 'src/app/shared/ui.service';
 import { AuthService } from '../auth.services';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../app.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  // isLoading = false;
+  public isLoading$: Observable<void>;
   private loadingSubs: Subscription;
-  isLoading = false;
 
   // loginForm = new FormGroup({
   //   "email": new FormControl("", Validators.required),
@@ -40,12 +42,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.subscribe((data) => console.log(data));
-    this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
-      (isLoading) => {
-        this.isLoading = isLoading;
-      }
+    // this.store.subscribe((data) => console.log(data));
+    // puting a $ dollar sign is convention use in NgRx
+    // this.isLoading$ = this.store.map((state) => state.ui.isLoading);
+    this.isLoading$ = this.store.pipe(
+      map((state) => {
+        state.ui.isLoading;
+      })
     );
+    // this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
+    //   (isLoading) => {
+    //     this.isLoading = isLoading;
+    //   }
+    // );
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
@@ -62,9 +71,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password,
     });
   }
-  ngOnDestroy() {
-    if (this.loadingSubs) {
-      this.loadingSubs.unsubscribe();
-    }
-  }
+
+  // ngOnDestroy() {
+  //   if (this.loadingSubs) {
+  //     this.loadingSubs.unsubscribe();
+  //   }
+  // }
 }

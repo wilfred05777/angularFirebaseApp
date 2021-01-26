@@ -12,6 +12,7 @@ import { UIService } from 'src/app/shared/ui.service';
 // import * as fromApp from '../../app.reducer';
 import * as fromRoot from '../../app.reducer';
 import * as UI from '../../shared/ui.actions';
+import * as Auth from '../auth/auth.actions';
 
 @Injectable()
 export class AuthService {
@@ -34,12 +35,14 @@ export class AuthService {
       if (user) {
         this.isAuthenticated = true;
         this.authChange.next(true);
+        // this.store.dispatch(new Auth.SetAuthenticated());
         this.router.navigate(['/training']);
       } else {
         this.trainingService.cancelSubscriptions();
-        this.authChange.next(false);
+        // this.authChange.next(false);
+        this.store.dispatch(new Auth.SetUnauthenticated());
         this.router.navigate(['/login']);
-        this.isAuthenticated = false;
+        // this.isAuthenticated = false;
       }
     });
   }

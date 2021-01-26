@@ -9,7 +9,9 @@ import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 import { TrainingService } from 'src/app/training/training/training.service';
 import { UIService } from 'src/app/shared/ui.service';
-import * as fromApp from '../../app.reducer';
+// import * as fromApp from '../../app.reducer';
+import * as fromRoot from '../../app.reducer';
+import * as UI from '../../shared/ui.actions';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +25,8 @@ export class AuthService {
     private trainingService: TrainingService,
     private snackbar: MatSnackBar,
     private uiservice: UIService,
-    private store: Store<{ ui: fromApp.State }>
+    // private store: Store<{ ui: fromApp.State }>
+    private store: Store<fromRoot.State>
   ) {}
 
   initAuthListener() {
@@ -42,19 +45,22 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
-    this.store.dispatch({ type: 'START_LOADING' });
+    // this.store.dispatch({ type: 'START_LOADING' });
     // this.uiservice.loadingStateChanged.next(true);
+    this.store.dispatch(new UI.StartLoading());
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        this.store.dispatch(new UI.StopLoading());
+        // this.store.dispatch({ type: 'STOP_LOADING' });
         // this.uiservice.loadingStateChanged.next(false);
         // this.authSuccessfully();
         // console.log(result)
       })
       .catch((error) => {
         // this.uiservice.loadingStateChanged.next(false);
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        // this.store.dispatch({ type: 'STOP_LOADING' });
+        this.store.dispatch(new UI.StopLoading());
         this.uiservice.showSnackbar(error.message, null, 3000);
         // this.snackbar.open(error.message, null, {
         //   duration: 3000,
@@ -72,18 +78,21 @@ export class AuthService {
 
   login(authData: AuthData) {
     // this.uiservice.loadingStateChanged.next(true);
-    this.store.dispatch({ type: 'START_LOADING' });
+    // this.store.dispatch({ type: 'START_LOADING' });
+    this.store.dispatch(new UI.StartLoading());
     this.afAuth
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        this.store.dispatch(new UI.StopLoading());
+        // this.store.dispatch({ type: 'STOP_LOADING' });
         // this.uiservice.loadingStateChanged.next(false);
         // this.authSuccessfully();
         // console.log(result)
       })
       .catch((error) => {
+        this.store.dispatch(new UI.StopLoading());
         // this.uiservice.loadingStateChanged.next(false);
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        // this.store.dispatch({ type: 'STOP_LOADING' });
         this.uiservice.showSnackbar(error.message, null, 3000);
         // this.snackbar.open(error.message, null, {
         //   duration: 3000,

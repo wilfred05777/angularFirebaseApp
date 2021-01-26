@@ -21,7 +21,7 @@ import { map } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   // isLoading = false;
-  public isLoading$: Observable<void>;
+  isLoading$: Observable<boolean>;
   private loadingSubs: Subscription;
 
   // loginForm = new FormGroup({
@@ -44,12 +44,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // this.store.subscribe((data) => console.log(data));
     // puting a $ dollar sign is convention use in NgRx
-    // this.isLoading$ = this.store.map((state) => state.ui.isLoading);
-    this.isLoading$ = this.store.pipe(
-      map((state) => {
-        state.ui.isLoading;
-      })
-    );
+    this.isLoading$ = this.store.pipe(map((state) => state.ui.isLoading));
+    // this.isLoading$ = this.store.pipe(
+    //   map((state) => {
+    //     state.ui.isLoading;
+    //   })
+    // );
     // this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
     //   (isLoading) => {
     //     this.isLoading = isLoading;

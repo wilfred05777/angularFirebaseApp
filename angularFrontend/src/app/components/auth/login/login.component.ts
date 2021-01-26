@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -45,11 +45,11 @@ export class LoginComponent implements OnInit {
     // this.store.subscribe((data) => console.log(data));
     // puting a $ dollar sign is convention use in NgRx
     this.isLoading$ = this.store.pipe(map((state) => state.ui.isLoading));
-    // this.isLoading$ = this.store.pipe(
-    //   map((state) => {
-    //     state.ui.isLoading;
-    //   })
-    // );
+    // // this.isLoading$ = this.store.pipe(
+    // //   map((state) => {
+    // //     state.ui.isLoading;
+    // //   })
+    // // );
     // this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
     //   (isLoading) => {
     //     this.isLoading = isLoading;

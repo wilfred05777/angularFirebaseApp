@@ -25,16 +25,6 @@ export class LoginComponent implements OnInit {
   isLoading$: Observable<boolean>;
   private loadingSubs: Subscription;
 
-  // loginForm = new FormGroup({
-  //   "email": new FormControl("", Validators.required),
-  //   "password": new FormControl("", Validators.required)
-  // });
-
-  // loginForm = this.fb.group({
-  //   email: ['', Validators.required],
-  //   password: ['', Validators.required],
-  // });
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -44,19 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-    // this.store.subscribe((data) => console.log(data));
-    // puting a $ dollar sign is convention use in NgRx
-    // this.isLoading$ = this.store.pipe(map((state) => state.ui.isLoading));
-    // // this.isLoading$ = this.store.pipe(
-    // //   map((state) => {
-    // //     state.ui.isLoading;
-    // //   })
-    // // );
-    // this.loadingSubs = this.uiservice.loadingStateChanged.subscribe(
-    //   (isLoading) => {
-    //     this.isLoading = isLoading;
-    //   }
-    // );
+
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
@@ -66,17 +44,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    //
-    // console.log(this.loginForm);
     this.authService.login({
       email: this.loginForm.value.email,
       password: this.loginForm.value.password,
     });
   }
-
-  // ngOnDestroy() {
-  //   if (this.loadingSubs) {
-  //     this.loadingSubs.unsubscribe();
-  //   }
-  // }
 }

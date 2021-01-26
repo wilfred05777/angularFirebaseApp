@@ -33,9 +33,9 @@ export class AuthService {
   initAuthListener() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.isAuthenticated = true;
-        this.authChange.next(true);
-        // this.store.dispatch(new Auth.SetAuthenticated());
+        // this.isAuthenticated = true;
+        // this.authChange.next(true);
+        this.store.dispatch(new Auth.SetAuthenticated());
         this.router.navigate(['/training']);
       } else {
         this.trainingService.cancelSubscriptions();
@@ -120,14 +120,14 @@ export class AuthService {
     // this.isAuthenticated = false;
   }
 
-  getUser() {
-    return { ...this.user };
-  }
+  // getUser() {
+  //   return { ...this.user };
+  // }
 
-  isAuth() {
-    return this.isAuthenticated;
-    // return this.user !=null;
-  }
+  // isAuth() {
+  //   return this.isAuthenticated;
+  //   // return this.user !=null;
+  // }
 
   private authSuccessfully() {
     // this.isAuthenticated = true;

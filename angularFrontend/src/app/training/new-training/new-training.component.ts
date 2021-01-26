@@ -13,6 +13,9 @@ import { TrainingService } from '../training/training.service';
 import { map } from 'rxjs/operators';
 import { UIService } from 'src/app/shared/ui.service';
 
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
+
 @Component({
   selector: 'app-new-training',
   templateUrl: './new-training.component.html',
@@ -24,7 +27,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   availableExcercisesInFS: Excercise[];
   excerciseSubscription: Subscription;
   private loadingSubs: Subscription;
-  isLoading = true;
+  // isLoading = true;
+  isLoading$: Observable<boolean>;
 
   @Output() trainingStart = new EventEmitter<void>();
   // excercises: Excercise[] = [];
@@ -32,6 +36,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   // excercises: Excercise[];
 
   constructor(
+    private store: Store<fromRoot.State>,
     private trainingService: TrainingService,
     private fs: AngularFirestore,
     private uiService: UIService
@@ -40,14 +45,15 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadingSubs = this.uiService.loadingStateChanged.subscribe(
-      (isLoading) => {
-        this.isLoading = isLoading;
-      }
-    );
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    // this.loadingSubs = this.uiService.loadingStateChanged.subscribe(
+    //   (isLoading) => {
+    //     this.isLoading = isLoading;
+    //   }
+    // );
     this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(
       (exercises) => {
-        this.isLoading = false;
+        // this.isLoading = false;
         this.availableExcercisesInFS = exercises;
       }
     );

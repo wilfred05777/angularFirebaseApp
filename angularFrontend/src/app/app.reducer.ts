@@ -1,24 +1,42 @@
+import {
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
+} from '@ngrx/store';
+import * as fromUi from './shared/ui.reducer';
+
 export interface State {
-  // type definition
-  isLoading: boolean;
+  ui: fromUi.State;
 }
 
-const initialState = {
-  isLoading: false,
+export const reducers: ActionReducerMap<State> = {
+  ui: fromUi.uiReducer,
 };
 
-export function appReducer(state = initialState, action) {
-  //   return state;
-  switch (action.type) {
-    case 'START_LOADING':
-      return {
-        isLoading: true,
-      };
-    case 'STOP_LOADING':
-      return {
-        isLoading: false,
-      };
-    default:
-      return state;
-  }
-}
+export const getUiState = createFeatureSelector<fromUi.State>('ui');
+export const getIsLoading = createSelector(getUiState, fromUi.getIsLoading);
+
+// export interface State {
+//   // type definition
+//   isLoading: boolean;
+// }
+
+// const initialState = {
+//   isLoading: false,
+// };
+
+// export function appReducer(state = initialState, action) {
+//   //   return state;
+//   switch (action.type) {
+//     case 'START_LOADING':
+//       return {
+//         isLoading: true,
+//       };
+//     case 'STOP_LOADING':
+//       return {
+//         isLoading: false,
+//       };
+//     default:
+//       return state;
+//   }
+// }

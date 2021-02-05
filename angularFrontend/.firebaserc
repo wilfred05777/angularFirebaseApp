@@ -9,8 +9,9 @@
     }
   },
   "projects": {
-    "staging": "yesmomiapp",
+    "staging": "angularfirebaseapp-a66fe",
     "production": "yesmomiapp",
-    "default": "yesmomiapp"
+    "default": "yesmomiapp",
+    "development": "angularfirebaseapp-a66fe"
   }
 }

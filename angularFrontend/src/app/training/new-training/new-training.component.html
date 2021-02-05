@@ -7,7 +7,7 @@
       <mat-card-content fxLayoutAlign="center">
         <mat-form-field
           appearance="fill"
-          *ngIf="!(isLoading$ | async) && availableExcercisesInFS"
+          *ngIf="!(isLoading$ | async) && availableExcercisesInFS$ | async"
         >
           <mat-select
             ngModel
@@ -16,7 +16,7 @@
             placeholder="Choose Excercise"
           >
             <mat-option
-              *ngFor="let excercise of availableExcercisesInFS"
+              *ngFor="let excercise of availableExcercisesInFS$ | async"
               [value]="excercise.id"
             >
               {{ excercise.name }}
@@ -36,7 +36,7 @@
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoading$ | async)">
         <button
-          *ngIf="availableExcercisesInFS"
+          *ngIf="availableExcercisesInFS$ | async"
           [disabled]="f.invalid"
           mat-raised-button
           color="primary"
@@ -46,7 +46,7 @@
           Start
         </button>
         <button
-          *ngIf="!availableExcercisesInFS"
+          *ngIf="!(availableExcercisesInFS$ | async)"
           (click)="fetchExercises()"
           mat-raised-button
           color="primary"

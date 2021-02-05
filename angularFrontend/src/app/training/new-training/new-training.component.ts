@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { UIService } from 'src/app/shared/ui.service';
 
 import { Store } from '@ngrx/store';
+import * as fromTraining from '../training/training.reducer';
 import * as fromRoot from '../../app.reducer';
 
 @Component({
@@ -22,15 +23,17 @@ import * as fromRoot from '../../app.reducer';
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
+  availableExcercisesInFS$: Observable<Excercise[]>;
+  isLoading$: Observable<boolean>;
+  // exercise$: Observable<Excercise>;
+
   // availableExcercisesInFS: Observable<any[]>;
   // availableExcercisesInFS: Observable<Excercise[]>;
-  availableExcercisesInFS: Excercise[];
-  excerciseSubscription: Subscription;
-  private loadingSubs: Subscription;
+  // excerciseSubscription: Subscription;
+  // private loadingSubs: Subscription;
   // isLoading = true;
-  isLoading$: Observable<boolean>;
 
-  @Output() trainingStart = new EventEmitter<void>();
+  // @Output() trainingStart = new EventEmitter<void>();
   // excercises: Excercise[] = [];
   // excercises: Observable<any[]>;
   // excercises: Excercise[];
@@ -46,18 +49,23 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.availableExcercisesInFS$ = this.store.select(
+      fromTraining.getAvailableExercises
+    );
+    this.fetchExercises();
+
     // this.loadingSubs = this.uiService.loadingStateChanged.subscribe(
     //   (isLoading) => {
     //     this.isLoading = isLoading;
     //   }
     // );
-    this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(
-      (exercises) => {
-        // this.isLoading = false;
-        this.availableExcercisesInFS = exercises;
-      }
-    );
-    this.fetchExercises();
+    // this.excerciseSubscription = this.trainingService.excercisesChanged.subscribe(
+    //   (exercises) => {
+    //     // this.isLoading = false;
+    //     this.availableExcercisesInFS = exercises;
+    //   }
+    // );
+    // this.fetchExercises();
     // this.trainingService.fetchAvailableExcercises();
 
     // this.fs is restructure and put to training services
@@ -127,12 +135,12 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   // }
 
   ngOnDestroy() {
-    if (this.excerciseSubscription) {
-      this.excerciseSubscription.unsubscribe();
-    }
-
-    if (this.loadingSubs) {
-      this.loadingSubs.unsubscribe();
-    }
+    //   if (this.excerciseSubscription) {
+    //     this.excerciseSubscription.unsubscribe();
+    //   }
+    //   if (this.loadingSubs) {
+    //     this.loadingSubs.unsubscribe();
+    //   }
+    // }
   }
 }

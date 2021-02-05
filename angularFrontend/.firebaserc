@@ -10,6 +10,7 @@
   },
   "projects": {
     "staging": "yesmomiapp",
-    "production": "yesmomiapp"
+    "production": "yesmomiapp",
+    "default": "yesmomiapp"
   }
 }

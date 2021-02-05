@@ -1,7 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+
 import { TrainingService } from '../training/training.service';
 import { StopTrainingComponent } from './stop-training.component';
+import * as fromTraining from '../training/training.reducer';
 
 @Component({
   selector: 'app-current-training',
@@ -16,6 +20,7 @@ export class CurrentTrainingComponent implements OnInit {
   timer: number;
 
   constructor(
+    private store: Store<fromTraining.State>,
     private dialog: MatDialog,
     private trainingService: TrainingService
   ) {}
@@ -32,19 +37,36 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   startOrResumeTimer() {
-    const step =
-      (this.trainingService.getRunningExercise().duration / 100) * 1000;
-    this.timer = setInterval(
-      () => {
-        this.progress = this.progress + 1;
-        if (this.progress >= 100) {
-          this.trainingService.completeExercise();
-          clearInterval(this.timer);
-        }
-      },
-      // 1000
-      step
-    );
+    this.store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((ex) => {
+        const step = (ex.duration / 100) * 1000;
+        this.timer = setInterval(
+          () => {
+            this.progress = this.progress + 1;
+            if (this.progress >= 100) {
+              this.trainingService.completeExercise();
+              clearInterval(this.timer);
+            }
+          },
+          // 1000
+          step
+        );
+      });
+    // const step =
+    //     (this.trainingService.getRunningExercise().duration / 100) * 1000;
+    //   this.timer = setInterval(
+    //     () => {
+    //       this.progress = this.progress + 1;
+    //       if (this.progress >= 100) {
+    //         this.trainingService.completeExercise();
+    //         clearInterval(this.timer);
+    //       }
+    //     },
+    //     // 1000
+    //     step
+    //   );
   }
 
   onStop() {

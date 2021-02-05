@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { Excercise } from './excercise.model';
 
@@ -104,11 +104,22 @@ export class TrainingService {
   }
 
   completeExercise() {
-    this.addDataToDatabase({
-      ...this.runningExcercise,
-      date: new Date(),
-      state: 'completed',
-    });
+    this.store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((ex) => {
+        this.addDataToDatabase({
+          ...ex,
+          date: new Date(),
+          state: 'completed',
+        });
+      });
+    // this.addDataToDatabase({
+    //   ...this.runningExcercise,
+    //   date: new Date(),
+    //   state: 'completed',
+    // });
+
     // this.excercises.push({
     //     ...this.runningExcercise,
     //     date: new Date(),
@@ -120,13 +131,27 @@ export class TrainingService {
   }
 
   cancelExcercise(progress: number) {
-    this.addDataToDatabase({
-      ...this.runningExcercise,
-      duration: this.runningExcercise.duration * (progress / 100),
-      calories: this.runningExcercise.calories * (progress / 100),
-      date: new Date(),
-      state: 'cancelled',
-    });
+    this.store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((ex) => {
+        this.addDataToDatabase({
+          ...ex,
+          duration: ex.duration * (progress / 100),
+          calories: ex.calories * (progress / 100),
+          date: new Date(),
+          state: 'completed',
+        });
+      });
+    this.store.dispatch(new Training.StopTraining());
+    // this.addDataToDatabase({
+    //   ...this.runningExcercise,
+    //   duration: this.runningExcercise.duration * (progress / 100),
+    //   calories: this.runningExcercise.calories * (progress / 100),
+    //   date: new Date(),
+    //   state: 'cancelled',
+    // });
+
     // this.excercises.push({
     //     ...this.runningExcercise,
     //     duration: this.runningExcercise.duration * (progress/100),
@@ -136,7 +161,7 @@ export class TrainingService {
     // });
     // this.runningExcercise = null;
     // this.excerciseChanged.next(null);
-    this.store.dispatch(new Training.StopTraining());
+    // this.store.dispatch(new Training.StopTraining());
   }
 
   getRunningExercise() {

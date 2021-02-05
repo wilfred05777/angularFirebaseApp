@@ -10,7 +10,7 @@ import {
 } from './training.actions';
 
 export interface TrainingState {
-  availableExcercises: Excercise[];
+  availableExercises: Excercise[];
   finishedExcercises: Excercise[];
   activeTraining: Excercise;
 }
@@ -20,7 +20,7 @@ export interface State extends fromRoot.State {
 }
 
 const initialState: TrainingState = {
-  availableExcercises: [],
+  availableExercises: [],
   finishedExcercises: [],
   activeTraining: null,
 };
@@ -30,7 +30,7 @@ export function trainingReducer(state = initialState, action: TrainingActions) {
     case SET_AVAILABLE_TRAININGS:
       return {
         ...state,
-        availableExcercises: action.payload,
+        availableExercises: action.payload,
       };
     case SET_FINISHED_TRAININGS:
       return {
@@ -40,7 +40,10 @@ export function trainingReducer(state = initialState, action: TrainingActions) {
     case START_TRAINING:
       return {
         ...state,
-        activeTraining: action.payload,
+        // activeTraining: action.payload,
+        activeTraining: {
+          ...state.availableExercises.find((ex) => ex.id === action.payload),
+        },
       };
     case STOP_TRAINING:
       return {
@@ -55,9 +58,9 @@ export function trainingReducer(state = initialState, action: TrainingActions) {
 export const getTrainingState = createFeatureSelector<TrainingState>(
   'training'
 );
-export const getAvailableExcercises = createSelector(
+export const getAvailableExercises = createSelector(
   getTrainingState,
-  (state: TrainingState) => state.availableExcercises
+  (state: TrainingState) => state.availableExercises
 );
 export const getFinishedExcercises = createSelector(
   getTrainingState,
